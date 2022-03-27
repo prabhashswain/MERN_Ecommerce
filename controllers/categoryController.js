@@ -19,6 +19,26 @@ class CategoryController {
         }
         return res.status(400).json({ errors: errors.array() });
     }
+
+    async updateCategory(req,res){
+        const { id } = req.params;
+        const errors = validationResult(req);
+        const { name } = req.body;
+        if (errors.isEmpty()) {
+            try {
+                const isExist = await Category.findOne({ name })
+                if (!isExist) {
+                    const category = await Category.updateOne({ id },{$set:{name}})
+                    return res.status(200).json({ message: 'Category Updated Successfully', category });
+                }
+                return res.status(400).json({ errors : [{'msg':`${name} category Already exist`}] });
+            } catch (error) {
+                return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
+            }
+        }
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     async categories(req,res){
         const page = req.params.page;
         const perPage = 4;
@@ -37,6 +57,15 @@ class CategoryController {
         try {
             const category = await Category.findById({_id:id})
             return res.status(200).json({ category })
+        } catch (error) {
+            return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
+        }
+    }
+    async deleteCategory(req,res){
+        const { id } = req.params;
+        try {
+            await Category.deleteOne({_id:id})
+            return res.status(200).json({ message: 'Category Deleted Successfully'})
         } catch (error) {
             return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
         }
