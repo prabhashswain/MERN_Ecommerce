@@ -8,5 +8,6 @@ categoryRoute.get('/categories/:page',category.categories);
 categoryRoute.get('/category/:id',category.fetchCategory);
 categoryRoute.put('/update/:id',categoryValidator,category.updateCategory);
 categoryRoute.delete('/delete/:id',category.deleteCategory);
+categoryRoute.get('/categories',category.allCategory);
 
 module.exports = categoryRoute;

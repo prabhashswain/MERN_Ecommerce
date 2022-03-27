@@ -70,6 +70,14 @@ class CategoryController {
             return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
         }
     }
+    async allCategory(req,res){
+        try {
+            const categories = await Category.find({})
+            return res.status(200).json({ categories })
+        } catch (error) {
+            return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
+        }
+    }
 }
 
 module.exports = new CategoryController;
