@@ -34,7 +34,12 @@ class CategoryController {
     }
     async fetchCategory(req,res){
         const id = req.params.id;
-        console.log(id);
+        try {
+            const category = await Category.findById({_id:id})
+            return res.status(200).json({ category })
+        } catch (error) {
+            return res.status(400).json({ errors: [{ 'msg': 'something went wrong' }] });
+        }
     }
 }
 
