@@ -33,7 +33,7 @@ class CategoryController {
 
     }
     async fetchCategory(req,res){
-        const id = req.params.id;
+        const { id } = req.params;
         try {
             const category = await Category.findById({_id:id})
             return res.status(200).json({ category })
